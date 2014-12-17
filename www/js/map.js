@@ -9,25 +9,26 @@
 var map;
 var gpswatch;
 var gpsmarker;
-var startview = setnewView(739207,6404074,4);
+var startview = setnewView(1209207,6004074,5);
 var zoomres = 4.777314267823516;
-var maxZoomlevel = 19;
+var maxZoomlevel = 12;
 var rotateMap = false;
 var compasswatchID = null;
 
 var layers = [
-		new ol.layer.TileLayer({
-		  source: new ol.source.MapQuestOSM(),
-		  visible:true
-		}),
-		new ol.layer.TileLayer({
+		new ol.layer.Tile({
+	      source: new ol.source.Stamen({
+	        layer: 'toner'
+	      })
+	    })
+		/*new ol.layer.TileLayer({
 		  source: new ol.source.OSM(),
 		  visible:false
 		}),
 		new ol.layer.TileLayer({
 		  source: new ol.source.MapQuestOpenAerial(),
 		  visible:false
-		})
+		})*/
 	  ];
 
 // Wait for Cordova to load
@@ -43,13 +44,9 @@ $(document).ready(function(){
 	setmapsize();
 	$('#compassneedle').hide();	
 	map = new ol.Map({
-	  controls: ol.control.defaults({}, [
-		new ol.control.ScaleLine({
-		  units: ol.control.ScaleLineUnits.IMPERIAL
-		})
-	  ]),
+	  controls: ol.control.defaults({},[]),
 	  layers: layers,
-	  renderers: ol.RendererHints.createFromQueryData(),
+	  /*renderers: exampleNS.getRendererFromQueryString(),*/
 	  target: 'map',
 	  view: startview 
 	});
@@ -167,7 +164,7 @@ function getTranspoint(x,y,i,o){
 
 //neuen View erzeugen
 function setnewView(x,y,z){
-var myview = new ol.View2D({
+var myview = new ol.View({
       center: [x, y],
       zoom: z,
 	  maxZoom: maxZoomlevel
